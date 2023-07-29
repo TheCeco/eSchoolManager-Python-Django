@@ -1,0 +1,37 @@
+{% extends 'base_templates/base.html' %}
+{% block content %}
+    <table class="grades">
+        <thead>
+        <tr>
+            <th>Subject</th>
+            <th style="width: 75%;">Grades</th>
+            <th>Average</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for subject in subjects %}
+            <tr>
+                <th class="subject-name">{{ subject }}</th>
+                <td class="subject-grade">
+                    <div>
+                        {% for data in student_grades %}
+                            {% if data.subject == subject %}
+                                {{ data.grade }}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </td>
+                <td>
+                    {% for key, value in average_grades.items %}
+                        {% if key == subject %}
+                            {{ value|floatformat:2 }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+{% endblock %}

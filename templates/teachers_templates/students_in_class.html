@@ -1,0 +1,54 @@
+{% extends 'base_templates/base.html' %}
+{% block content %}
+    {% load static %}
+
+    <select name="subject-choice">
+        {% for teachersubject in teacher.teachersubjects_set.all %}
+            <option value="{{ teachersubject.subject.subject_name }}">{{ teachersubject.subject.subject_name }}</option>
+        {% endfor %}
+    </select>
+
+    {% for teachersubject in teacher.teachersubjects_set.all %}
+        <table class="grades" name="{{ teachersubject.subject.subject_name }}"
+                {% if teacher.teachersubjects_set.first.subject.subject_name != teachersubject.subject.subject_name %}
+               style="display: none"
+                {% endif %}
+               id="{{ teachersubject.subject.subject_name }}-table">
+            <thead>
+            <tr>
+                <th>Full Name</th>
+                <th style="width: 75%;">Grades</th>
+                <th>Average</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for student in object %}
+                <tr>
+                    <th class="student-name">{{ student.user.get_full_name }}</th>
+                    <td class="subject-grade">
+                        <div>
+                            {% for studentsubject in student_subjects %}
+                                {% if studentsubject.subject == teachersubject.subject and studentsubject.student == student %}
+                                    <a href="#" class="grade-details">{{ studentsubject.grade }}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </td>
+                    <td>
+                        {% for key_subject, value_students in average_grades.items %}
+                            {% for key_student, value_average_grade in value_students.items %}
+                                {% if key_subject == teachersubject.subject and key_student == student %}
+                                    {{ value_average_grade|floatformat:2 }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+    {% endfor %}
+    <script src="{% static 'subject_choice.js' %}" defer></script>
+{% endblock %}

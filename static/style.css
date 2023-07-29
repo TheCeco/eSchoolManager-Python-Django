@@ -1,0 +1,149 @@
+main {
+    margin-top: 4%;
+    margin-left: 0.5%;
+}
+
+ul {
+    text-decoration: none;
+    list-style-type: none;
+}
+
+button, .button {
+    background-color: #04A86A; /* Green */
+    border: none;
+    color: white;
+    padding: 3px 9px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px;
+    border-radius: 15px;
+}
+
+.button-delete {
+    background-color: darkred; /* Green */
+    border: none;
+    color: white;
+    padding: 5.5px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px;
+    border-radius: 15px;
+}
+
+
+ul.ul-navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+li.li-navbar {
+    float: left;
+}
+
+li.li-navbar a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li.li-navbar a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #04AA6D;
+}
+
+.grades {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 85%;
+    padding: 10px;
+    margin: auto;
+    font-size: 18px;
+}
+
+.grades td, .grades th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.grades tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.grades tr:hover {
+    background-color: #ddd;
+}
+
+.grades th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #04AA6D;
+    color: white;
+}
+
+.grades th.subject-name {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #3CB043;
+    color: white;
+}
+
+.grades td.subject-grade {
+    text-align: left;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    color: #000;
+}
+
+.student-profile .card {
+    border-radius: 10px;
+}
+
+.student-profile .card .card-header .profile_img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin: 10px auto;
+    border: 10px solid #04A86A;
+    border-radius: 50%;
+}
+
+.student-profile .card h3 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.student-profile .card p {
+    font-size: 16px;
+    color: #000;
+}
+
+.student-profile .table th,
+.student-profile .table td {
+    font-size: 14px;
+    padding: 5px 10px;
+    color: #000;
+}
+
+.grade-details {
+    color: black;
+}

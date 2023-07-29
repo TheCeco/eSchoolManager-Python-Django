@@ -1,0 +1,15 @@
+{% extends 'base_templates/base.html' %}
+{% block content %}
+    <p>
+        Teachers:
+        {% for teacher in teachers %}
+            <div>{{ teacher.teacher.user.get_full_name }} </div>
+        {% endfor %}
+    </p>
+    <p>
+        Students:
+        {% for student in students %}
+            <div>{{ student.user.get_full_name }}</div>
+        {% endfor %}
+    </p>
+{% endblock %}

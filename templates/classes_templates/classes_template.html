@@ -1,0 +1,15 @@
+{% extends 'base_templates/base.html' %}
+{% block content %}
+    {% if request.user.groups.first.name == 'Principal' %}
+        <a href="{% url 'assign_teacher' %}">
+            <button>
+                Assign Teacher
+            </button>
+        </a>
+    {% endif %}
+    <ul class="ul-classes">
+        {% for class in object_list %}
+            <li class="li-classes"><a href="{% url 'classes_details' pk=class.pk %}">{{ class }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

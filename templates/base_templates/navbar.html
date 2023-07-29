@@ -1,0 +1,24 @@
+<nav>
+    <ul class="ul-navbar">
+        <li class="li-navbar"><a class="active" href="{% url 'index' %}">Home</a></li>
+        {% if user.is_authenticated %}
+            {% if request.user.groups.first.name == 'Principal' %}
+                <li class="li-navbar"><a href="{% url 'principal_details' %}">Profile</a></li>
+                <li class="li-navbar"><a href="{% url 'pending_users' %}">Pending users</a></li>
+                <li class="li-navbar"><a href="{% url 'types_view' user_type='teachers' %}">Teachers</a></li>
+                <li class="li-navbar"><a href="{% url 'types_view' user_type='students' %}">Students</a></li>
+                <li class="li-navbar"><a href="{% url 'classes_list' %}">Classes</a></li>
+            {% elif request.user.groups.first.name == 'Teacher' %}
+                <li class="li-navbar"><a href="{% url 'teacher_details' pk=user.pk %}">Profile</a></li>
+                <li class="li-navbar"><a href="{% url 'teacher_classes' %}">Classes</a></li>
+            {% elif request.user.groups.first.name == 'Student' %}
+                <li class="li-navbar"><a href="{% url 'student_details' pk=user.pk %}">Profile</a></li>
+                <li class="li-navbar"><a href="{% url 'student_grades' pk=user.pk %}">Grades</a></li>
+            {% endif %}
+            <li class="li-navbar" style="float:right"><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li class="li-navbar" style="float:right"><a href="{% url 'login' %}">Login</a></li>
+            <li class="li-navbar" style="float:right"><a href="{% url 'register' %}">Register</a></li>
+        {% endif %}
+    </ul>
+</nav>

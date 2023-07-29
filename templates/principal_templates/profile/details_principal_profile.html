@@ -1,0 +1,76 @@
+{% extends 'base_templates/base.html' %}
+{% block content %}
+    <div class="student-profile py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent text-center">
+                            <img class="profile_img" src='{{ profile.image_url }}' alt="">
+                            <h3>{{ profile.user.first_name }} {{ profile.user.last_name }}</h3>
+                        </div>
+                        <div class="card-body">
+                            {% if request.user.groups.first.name == 'Principal' %}
+                                <div class="edit-profile">
+                                    <a href="{% url 'edit_profile' pk=user.pk %}">
+                                        <button>Edit</button>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent border-0">
+                            <h3 class="mb-0">General Information</h3>
+                        </div>
+                        <div class="card-body pt-0">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th width="30%">Role</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ profile.user.groups.first.name }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Date of Birth</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ profile.date_of_birth }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Gender</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ profile.gender }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">E-mail</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ profile.user.email }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Phone Number</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ profile.phone }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Address</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ profile.address }}</td>
+                                </tr>
+                                {% if classes %}
+                                    <tr>
+                                        <th width="30%">Classes</th>
+                                        <td width="2%">:</td>
+                                        <td>{% for class in classes %}
+                                            {{ class.school_class }};
+                                        {% endfor %}</td>
+                                    </tr>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

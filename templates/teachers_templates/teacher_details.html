@@ -1,0 +1,109 @@
+{% extends 'base_templates/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="student-profile py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent text-center">
+                            <img class="profile_img" src='{{ object.image_url }}' alt="">
+                            <h3>{{ object.user.first_name }} {{ object.user.last_name }}</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-0"><strong class="pr-1">Subjects:</strong></p>
+                            {% for subject in teacher_subjects %}
+                                <p class="mb-0">{{ subject.subject.subject_name }}
+                                    {% if request.user.groups.first.name == 'Principal' %}
+                                        <a href="{% url 'edit_subject' teacher_id=object.pk subject_id=subject.subject_id %}">
+                                            <button>&#9998</button>
+                                        </a>
+                                        <a href="{% url 'delete_subject' teacher_id=object.pk subject_id=subject.subject_id %}">
+                                            <button class="button-delete fa">&#XF014</button>
+                                        </a>
+                                    {% endif %}</p>
+                            {% endfor %}
+                            <div class="subjects">
+                                {% if request.user.groups.first.name == 'Principal' %}
+                                    <div>
+                                        Add Subject:
+                                        <a href="{% url 'assign_subject' pk=object.pk %}">
+                                            <button>&plus;</button>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% if request.user.groups.first.name == 'Principal' %}
+                                <div class="delete-confirmation">
+                                    <a href="{% url 'delete_users' pk=object.user_id %} ">
+                                        <button class="button-delete">
+                                            Delete
+                                        </button>
+                                    </a>
+                                </div>
+                            {% elif request.user.groups.first.name == 'Teacher' %}
+                                <div class="edit-profile">
+                                    <a href="{% url 'teacher_edit' pk=object.user_id %}">
+                                        <button>
+                                            Edit
+                                        </button>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent border-0">
+                            <h3 class="mb-0">General Information</h3>
+                        </div>
+                        <div class="card-body pt-0">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th width="30%">Role</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ object.user.groups.first.name }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Date of Birth</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ object.date_of_birth }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Gender</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ object.gender }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">E-mail</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ object.user.email }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Phone Number</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ object.phone }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Address</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ object.address }}</td>
+                                </tr>
+                                {% if classes %}
+                                    <tr>
+                                        <th width="30%">Classes</th>
+                                        <td width="2%">:</td>
+                                        <td>{% for class in classes %}
+                                            {{ class.school_class }};
+                                        {% endfor %}</td>
+                                    </tr>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

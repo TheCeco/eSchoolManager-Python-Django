@@ -1,0 +1,11 @@
+{% extends 'base_templates/base.html' %}
+{% load static %}
+{% block content %}
+    <form action="{% url 'approve_user' pk=user.pk %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="&#10003" name="approve" class="button">
+        <input type="submit" value="&#10005" name="delete" class="button-delete">
+    </form>
+    <script src="{% static 'approve.js' %}" defer></script>
+{% endblock %}

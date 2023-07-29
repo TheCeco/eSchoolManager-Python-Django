@@ -1,0 +1,8 @@
+{% extends 'base_templates/base.html' %}
+{% block content %}
+    {% for student in object_list %}
+        <p>
+            <a href="{% url 'student_details' pk=student.user_id %}">{{ student }}</a>
+        </p>
+    {% endfor %}
+{% endblock %}

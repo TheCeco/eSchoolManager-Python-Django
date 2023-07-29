@@ -1,0 +1,8 @@
+{% extends 'base_templates/base.html' %}
+{% block content %}
+    <form action="{% url 'edit_subject' teacher_id=teacher_id subject_id=subject_id %}" method="post" class="post-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Edit">
+    </form>
+{% endblock %}

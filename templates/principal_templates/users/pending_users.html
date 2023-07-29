@@ -1,0 +1,10 @@
+{% extends 'base_templates/base.html' %}
+{% block content %}
+    {% if users %}
+        {% for user in users %}
+            <p><a href="{% url 'approve_user' pk=user.pk %}">{{ user }}</a></p>
+        {% endfor %}
+    {% else %}
+        <p>No users!</p>
+    {% endif %}
+{% endblock %}

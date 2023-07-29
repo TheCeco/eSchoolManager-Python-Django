@@ -1,0 +1,84 @@
+{% extends 'base_templates/base.html' %}
+{% block content %}
+    <div class="student-profile py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent text-center">
+                            <img class="profile_img" src='{{ object.image_url }}' alt="">
+                            <h3>{{ object.user.first_name }} {{ object.user.last_name }}</h3>
+                        </div>
+                        <div class="card-body">
+                            {% if request.user.groups.first.name == 'Principal' %}
+                                <div class="delete-confirmation">
+                                    <a href="{% url 'delete_users' pk=object.user_id %} ">
+                                        <button class="button-delete">
+                                            Delete
+                                        </button>
+                                    </a>
+                                </div>
+                            {% elif request.user.groups.first.name == 'Student' %}
+                                <div class="edit-profile">
+                                    <a href="{% url 'student_edit' pk=object.user.pk %}">
+                                        <button>
+                                            Edit
+                                        </button>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent border-0">
+                            <h3 class="mb-0">General Information</h3>
+                        </div>
+                        <div class="card-body pt-0">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th width="30%">Role</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ object.user.groups.first.name }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Date of Birth</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ object.date_of_birth }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Gender</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ object.gender }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">E-mail</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ object.user.email }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Phone Number</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ object.phone }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Address</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ object.address }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Class</th>
+                                    <td width="2%">:</td>
+                                    <td>
+                                        {{ object.school_class }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
