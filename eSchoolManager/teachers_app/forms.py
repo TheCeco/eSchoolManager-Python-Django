@@ -1,5 +1,6 @@
 from django import forms
 
+from eSchoolManager.students_app.models import AddGradeToStudentModel
 from eSchoolManager.teachers_app.models import TeacherProfile
 
 
@@ -26,3 +27,15 @@ class EditTeacherProfileForm(forms.ModelForm):
                 'class': 'form-control'
             })
         }
+
+
+class GradeToStudentForm(forms.ModelForm):
+    class Meta:
+        model = AddGradeToStudentModel
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['student'].disabled = True
+        self.fields['subject'].disabled = True
+

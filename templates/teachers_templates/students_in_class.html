@@ -29,9 +29,19 @@
                         <div>
                             {% for studentsubject in student_subjects %}
                                 {% if studentsubject.subject == teachersubject.subject and studentsubject.student == student %}
-                                    <a href="#" class="grade-details">{{ studentsubject.grade }}</a>
+                                    {% if request.user.groups.all.first.name == 'Teacher' %}
+                                        <a href="{% url 'edit_student_grade' pk=studentsubject.pk %}"
+                                           class="grade-details">{{ studentsubject.grade }}</a>
+                                    {% else %}
+                                        {{ studentsubject.grade }}
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
+                            {% if request.user.groups.all.first.name == 'Teacher' %}
+                                <a href="{% url 'add_grade' student_id=student.pk subject_id=teachersubject.subject.pk %}">
+                                    <button style="float: right">&plus;</button>
+                                </a>
+                            {% endif %}
                         </div>
                     </td>
                     <td>
