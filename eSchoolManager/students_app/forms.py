@@ -7,7 +7,7 @@ class EditStudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
         fields = '__all__'
-        exclude = ['school_class']
+        exclude = ['school_class', 'user']
         widgets = {
             'image_url': forms.URLInput(attrs={
                 'class': 'form-control'
