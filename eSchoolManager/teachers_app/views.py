@@ -3,10 +3,11 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.views import generic as views
 
-from .forms import EditTeacherProfileForm
+from .forms import EditTeacherProfileForm, GradeToStudentForm
 from .models import TeacherProfile
 from ..accounts_app.forms import SchoolUserEditForm
 from ..classes_app.models import TeacherClass
+from ..common_app.models import SubjectsModel
 from ..principal_app.models import TeacherSubjects
 from ..students_app.models import StudentProfile, AddGradeToStudentModel
 
@@ -116,3 +117,55 @@ class TeacherGradesTables(views.DetailView):
                 average_grades[subject][student] = average_grade
 
         return average_grades
+
+
+class EditStudentGrade(views.UpdateView):
+    template_name = 'teachers_templates/edit_student_grade.html'
+    form_class = GradeToStudentForm
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')
+        return AddGradeToStudentModel.objects.get(pk=pk)
+
+    def form_valid(self, form):
+        class_id = self.get_object().student.school_class.pk
+        if self.request.POST.get('action') == 'Edit Grade':
+            form.save()
+        elif self.request.POST.get('action') == 'Delete Grade':
+            self.get_object().delete()
+        return self.get_success_url(class_id)
+
+    def get_success_url(self, class_id):
+        return redirect('students_in_class', class_id=class_id)
+
+
+class AddGrade(views.CreateView):
+    form_class = GradeToStudentForm
+    template_name = 'teachers_templates/add_grade.html'
+
+    def get_object(self, queryset=None):
+        student_id = self.kwargs.get('student_id')
+        subject_id = self.kwargs.get('subject_id')
+        student = StudentProfile.objects.get(pk=student_id)
+        subject = SubjectsModel.objects.get(pk=subject_id)
+        return [student, subject]
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['student'] = self.get_object()[0]
+        initial['subject'] = self.get_object()[1]
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['student'] = self.get_object()[0]
+        context['subject'] = self.get_object()[1]
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        return self.get_success_url()
+
+    def get_success_url(self):
+        student_class_id = self.get_object()[0].school_class.pk
+        return redirect('students_in_class', class_id=student_class_id)

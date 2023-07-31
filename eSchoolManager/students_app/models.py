@@ -65,5 +65,4 @@ class AddGradeToStudentModel(models.Model):
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
     subject = models.ForeignKey(SubjectsModel, on_delete=models.CASCADE)
 
-    class Meta:
-        ordering = ['student_id', 'subject_id']
+
