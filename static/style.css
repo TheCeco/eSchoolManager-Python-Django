@@ -22,7 +22,7 @@ button, .button {
 }
 
 .button-delete {
-    background-color: darkred; /* Green */
+    background-color: darkred;
     border: none;
     color: white;
     padding: 3px 9px;
@@ -146,4 +146,37 @@ body {
 
 .grade-details {
     color: black;
+}
+
+#id_username {
+    width: 50%;
+}
+
+.login-form {
+    position: absolute;
+    top: 29%;
+    left: 35%;
+    width: 30%;
+    border: 10px solid #04A86A;
+    border-radius: 3rem;
+    padding: 25px
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 21px;
+    background-color: #04A86A;
+    text-align: center;
+}
+
+.redirect-url {
+    margin-left: 20%;
+    margin-top: 3%;
+}
+
+.authenticate-button {
+    margin-left: 41%;
 }
