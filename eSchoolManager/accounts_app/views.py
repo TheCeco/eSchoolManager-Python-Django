@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.views import generic as views
 from django.urls import reverse_lazy
 
-from eSchoolManager.accounts_app.forms import SchoolUserRegistrationForm
+from eSchoolManager.accounts_app.forms import SchoolUserRegistrationForm, SchoolUserLoginForm
 
 UserModel = get_user_model()
 
@@ -11,6 +11,7 @@ UserModel = get_user_model()
 # Create your views here.
 class SchoolUserLoginView(auth_views.LoginView):
     template_name = 'accounts_templates/login.html'
+    form_class = SchoolUserLoginForm
 
     def form_invalid(self, form):
         new_user = form.cleaned_data

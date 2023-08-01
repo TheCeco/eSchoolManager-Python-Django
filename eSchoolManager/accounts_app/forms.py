@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import BaseUserCreationForm
+from django.contrib.auth.forms import BaseUserCreationForm, AuthenticationForm
 from django.core.exceptions import ValidationError
 from django import forms
 
@@ -56,3 +56,10 @@ class SchoolUserEditForm(forms.ModelForm):
             })
         }
 
+
+class SchoolUserLoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class': 'form-control',
+                                                     'type': 'email'})
+        self.fields['password'].widget.attrs.update({'class': 'form-control'})
