@@ -9,9 +9,9 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
 from pathlib import Path
 
+from django.conf.urls import handler404
 from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,6 +26,8 @@ SECRET_KEY = 'django-insecure-4h3c7hoh^#f5a8=tt7n(o26yjkb22yslg-6*zscopk1%^z%wv3
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+handler404 = 'handlers_app.views.handler_404'
 
 ALLOWED_HOSTS = []
 
@@ -144,4 +146,3 @@ LOGOUT_REDIRECT_URL = reverse_lazy('index')
 
 LOGIN_REDIRECT_URL = reverse_lazy('index')
 LOGIN_URL = reverse_lazy('login')
-

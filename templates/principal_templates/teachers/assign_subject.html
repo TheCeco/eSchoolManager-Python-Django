@@ -3,6 +3,6 @@
     <form action="{% url 'assign_subject' pk=teacher.pk %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-        <input type="submit" value="Add Subject">
+        <input type="submit" value="Add Subject" class="button">
     </form>
 {% endblock %}

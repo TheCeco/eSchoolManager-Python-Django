@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import Http404
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views import generic as views
 
 from .forms import EditTeacherProfileForm, GradeToStudentForm
@@ -14,6 +16,11 @@ from ..students_app.models import StudentProfile, AddGradeToStudentModel
 UserModel = get_user_model()
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required({
+    'teachers_app.view_teacherprofile',
+    'accounts_app.view_schooluser'
+}, raise_exception=True), name='dispatch')
 class TeacherDetailsView(views.DetailView):
     template_name = 'teachers_templates/teacher_details.html'
 
@@ -32,6 +39,11 @@ class TeacherDetailsView(views.DetailView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required({
+    'teachers_app.change_teacherprofile',
+    'accounts_app.change_schooluser'
+}, raise_exception=True), name='dispatch')
 class EditTeacherProfile(views.UpdateView):
     template_name = 'teachers_templates/teacher_edit.html'
     form_class = SchoolUserEditForm
@@ -69,6 +81,10 @@ class EditTeacherProfile(views.UpdateView):
         return self.render_to_response(self.get_context_data(form=form, p_form=p_form))
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required({
+    'classes_app.view_teacherclass'
+}, raise_exception=True), name='dispatch')
 class TeacherClasses(views.ListView):
     template_name = 'teachers_templates/teacher_classes.html'
     model = TeacherClass
@@ -78,6 +94,11 @@ class TeacherClasses(views.ListView):
         return TeacherClass.objects.filter(teacher_id=teacher.pk)
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required({
+    'classes_app.view_teacherclass',
+    'students_app.view_addgradetostudentmodel'
+}, raise_exception=True), name='dispatch')
 class TeacherGradesTables(views.DetailView):
     template_name = 'teachers_templates/students_in_class.html'
 
@@ -119,6 +140,10 @@ class TeacherGradesTables(views.DetailView):
         return average_grades
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required({
+    'students_app.change_addgradetostudentmodel'
+}, raise_exception=True), name='dispatch')
 class EditStudentGrade(views.UpdateView):
     template_name = 'teachers_templates/edit_student_grade.html'
     form_class = GradeToStudentForm
@@ -139,6 +164,10 @@ class EditStudentGrade(views.UpdateView):
         return redirect('students_in_class', class_id=class_id)
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required({
+    'students_app.add_addgradetostudentmodel'
+}, raise_exception=True), name='dispatch')
 class AddGrade(views.CreateView):
     form_class = GradeToStudentForm
     template_name = 'teachers_templates/add_grade.html'

@@ -1,11 +1,14 @@
 {% extends 'base_templates/base.html' %}
 {% block content %}
-    <h1>Register Page!</h1>
-
-    <form action="{% url 'register' %}" method="post">
+    <form action="{% url 'register' %}" method="post" class="register-form">
+        <p>
+        <h3 style="text-align: center">Register Form</h3>
+        </p>
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Register" class="button">
-        Already have a registration? <a href="{% url 'login' %}">Login</a>
+        <input type="submit" value="Register" class="button authenticate-button">
+        <div class="redirect-url">
+            Already have a registration? <a href="{% url 'login' %}">Login</a>
+        </div>
     </form>
 {% endblock %}

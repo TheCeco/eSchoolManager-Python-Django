@@ -1,8 +1,44 @@
 {% extends 'base_templates/base.html' %}
 {% block content %}
-    {% for teacher in object_list %}
-        <p>
-            <a href="{% url 'teacher_details' pk=teacher.user_id %}">{{ teacher }}</a>
-        </p>
-    {% endfor %}
+    <div class="list-container">
+        {% if page_obj %}
+            <h3>Teachers List</h3>
+            <div class="search-wrapper">
+                <form method="post" class="input-search search">
+                    {% csrf_token %}
+                    {{ search_form }}
+                    <button class="search-button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            <ul class="list">
+                {% for teacher in page_obj %}
+                    <a href="{% url 'teacher_details' pk=teacher.user_id %}">
+                        <span class="circle"></span>
+                        {{ teacher }}
+                    </a>
+                {% endfor %}
+            </ul>
+            <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?search={{ search_query }}&page=1">&laquo; first</a>
+                                <a href="?search={{ search_query }}&page={{ page_obj.previous_page_number }}">previous</a>
+                            {% endif %}
+
+                            <span class="current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            </span>
+
+                            {% if page_obj.has_next %}
+                                <a href="?search={{ search_query }}&page={{ page_obj.next_page_number }}">next</a>
+                                <a href="?search={{ search_query }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+            </div>
+        {% else %}
+            <div class="no-data">No teachers!</div>
+        {% endif %}
+    </div>
 {% endblock %}

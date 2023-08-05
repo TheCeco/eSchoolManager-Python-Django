@@ -5,9 +5,9 @@ let schoolClassField = document.getElementById('id_school_class')
 
 function toggleSubjectField() {
     if (UserTypeField.value === 'student') {
-        schoolClassField.style.display = 'block';
+        schoolClassField.style.display = '';
         schoolClassField.required = true
-        schoolClassLabel.style.display = 'block';
+        schoolClassLabel.style.display = '';
     } else {
         schoolClassField.style.display = 'none';
          schoolClassField.required = false

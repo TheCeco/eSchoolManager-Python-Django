@@ -5,8 +5,8 @@
             {% if request.user.groups.first.name == 'Principal' %}
                 <li class="li-navbar"><a href="{% url 'principal_details' %}">Profile</a></li>
                 <li class="li-navbar"><a href="{% url 'pending_users' %}">Pending users</a></li>
-                <li class="li-navbar"><a href="{% url 'types_view' user_type='teachers' %}">Teachers</a></li>
-                <li class="li-navbar"><a href="{% url 'types_view' user_type='students' %}">Students</a></li>
+                <li class="li-navbar"><a href="{% url 'teachers_view' %}">Teachers</a></li>
+                <li class="li-navbar"><a href="{% url 'students_view' %}">Students</a></li>
                 <li class="li-navbar"><a href="{% url 'classes_list' %}">Classes</a></li>
             {% elif request.user.groups.first.name == 'Teacher' %}
                 <li class="li-navbar"><a href="{% url 'teacher_details' pk=user.pk %}">Profile</a></li>
@@ -20,5 +20,7 @@
             <li class="li-navbar" style="float:right"><a href="{% url 'login' %}">Login</a></li>
             <li class="li-navbar" style="float:right"><a href="{% url 'register' %}">Register</a></li>
         {% endif %}
+        <li class="li-navbar"><a href="{% url 'about' %}">About us</a></li>
+        <li class="li-navbar"><a href="{% url 'contacts' %}">Contact us</a></li>
     </ul>
 </nav>
