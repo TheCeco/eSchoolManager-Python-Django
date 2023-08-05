@@ -13,7 +13,7 @@
                             {% if request.user.groups.first.name == 'Principal' %}
                                 <div class="edit-profile">
                                     <a href="{% url 'edit_profile' pk=user.pk %}">
-                                        <button>Edit</button>
+                                        <button class="button">Edit</button>
                                     </a>
                                 </div>
                             {% endif %}

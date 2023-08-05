@@ -1,10 +1,13 @@
 {% extends 'base_templates/base.html' %}
+{% load static %}
 {% block content %}
-    <h1>Home Page!</h1>
+    <h3 class="user-name">
+        {% if user.is_authenticated %}
+            {{ user.get_full_name }},
+        {% endif %}
+    </h3>
+    <h1 class="welcome-message">Welcome to eSchoolManager!</h1>
+    <img class="home-image " src="{% static '4298086.png' %}" alt="img8">
 
-    {% if user.is_authenticated %}
-        <p>Welcome, {{ user.email }}!</p>
-    {% else %}
-        <p>Please log in.</p>
-    {% endif %}
+
 {% endblock %}

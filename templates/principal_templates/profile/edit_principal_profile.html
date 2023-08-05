@@ -2,7 +2,6 @@
 {% block content %}
     <form action="{% url 'edit_profile' pk=user.pk %}" method="post">
         {% csrf_token %}
-        {% csrf_token %}
         <div class="container">
             <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12 edit_information">
                 <form action="" method="POST">

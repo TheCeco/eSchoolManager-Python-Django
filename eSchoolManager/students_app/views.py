@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import Http404
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views import generic as views
 
 from eSchoolManager.accounts_app.forms import SchoolUserEditForm
@@ -12,6 +14,11 @@ UserModel = get_user_model()
 
 
 # Create your views here.
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required({
+    'students_app.view_studentprofile',
+    'accounts_app.view_schooluser'
+}, raise_exception=True), name='dispatch')
 class StudentDetailsView(views.DetailView):
     template_name = 'students_templates/student_details.html'
 
@@ -21,6 +28,11 @@ class StudentDetailsView(views.DetailView):
         return StudentProfile.objects.get(user_id=user_id)
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required({
+    'students_app.change_studentprofile',
+    'accounts_app.change_schooluser'
+}, raise_exception=True), name='dispatch')
 class EditStudentProfileView(views.UpdateView):
     template_name = 'students_templates/student_edit.html'
     form_class = SchoolUserEditForm
@@ -58,6 +70,10 @@ class EditStudentProfileView(views.UpdateView):
         return self.render_to_response(self.get_context_data(form=form, p_form=p_form))
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required({
+    'students_app.view_addgradetostudentmodel'
+}, raise_exception=True), name='dispatch')
 class GradesDetailsView(views.DetailView):
     template_name = 'students_templates/student_grades.html'
 

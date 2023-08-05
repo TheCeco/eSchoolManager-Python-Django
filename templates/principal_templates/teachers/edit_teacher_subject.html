@@ -3,6 +3,6 @@
     <form action="{% url 'edit_subject' teacher_id=teacher_id subject_id=subject_id %}" method="post" class="post-form">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Edit">
+        <input type="submit" value="Edit" class="button">
     </form>
 {% endblock %}

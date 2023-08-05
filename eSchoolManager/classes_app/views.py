@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required, permission_required
+from django.shortcuts import render, get_list_or_404, get_object_or_404
+from django.utils.decorators import method_decorator
 from django.views import generic as views
 
 from eSchoolManager.classes_app.models import ClassesModel, TeacherClass
@@ -6,11 +8,19 @@ from eSchoolManager.students_app.models import StudentProfile
 
 
 # Create your views here.
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required({
+    'classes_app.view_classesmodel'
+}, raise_exception=True), name='dispatch')
 class ClassesList(views.ListView):
     template_name = 'classes_templates/classes_template.html'
     model = ClassesModel
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required({
+    'classes_app.view_classesmodel'
+}, raise_exception=True), name='dispatch')
 class ClassDetailsView(views.DetailView):
     template_name = 'classes_templates/class_details.html'
 
@@ -27,4 +37,4 @@ class ClassDetailsView(views.DetailView):
 
     def get_object(self, queryset=None):
         class_id = self.kwargs.get('pk')
-        return ClassesModel.objects.get(pk=class_id)
+        return get_object_or_404(ClassesModel, pk=class_id)

@@ -1,27 +1,9 @@
 {% extends 'base_templates/base.html' %}
 {% block content %}
-    <style>
-        .login-form {
-            position: absolute;
-            top: 29%;
-            left: 35%;
-            width: 30%;
-            border: 10px solid #04A86A;
-            border-radius: 3rem;
-            padding: 25px
-        }
-
-        .redirect-url {
-            margin-left: 20%;
-            margin-top: 3%;
-        }
-
-        .authenticate-button {
-            margin-left: 41%;
-        }
-
-    </style>
     <form action="{% url 'login' %}" method="post" class="login-form">
+        <p>
+        <h3 style="text-align: center">Login Form</h3>
+        </p>
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Login" class="button authenticate-button">

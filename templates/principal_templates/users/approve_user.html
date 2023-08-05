@@ -1,11 +1,14 @@
 {% extends 'base_templates/base.html' %}
 {% load static %}
 {% block content %}
-    <form action="{% url 'approve_user' pk=user.pk %}" method="post">
+    <form action="{% url 'approve_user' pk=user.pk %}" method="post" class="approve-form">
+    <p>
+        <h3 style="text-align: center;">Approve Users Form</h3>
+    </p>
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p }}
         <input type="submit" value="&#10003" name="approve" class="button">
-        <input type="submit" value="&#10005" name="delete" class="button-delete">
+        <input type="submit" value="&#XF014" name="delete" class="button-delete fa">
     </form>
     <script src="{% static 'approve.js' %}" defer></script>
 {% endblock %}

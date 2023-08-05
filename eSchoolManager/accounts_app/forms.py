@@ -33,11 +33,34 @@ class SchoolUserRegistrationForm(UserCreationForm):
     class Meta:
         model = UserModel
         fields = ['email', 'first_name', 'last_name', 'password1', 'password2']
+        widgets = {
+            'email': forms.EmailInput(attrs={
+                'type': 'email',
+                'class': 'form-control',
+                'placeholder': 'user@mallserver.domain'
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'First Name'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Last Name'
+            })
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['password1'].help_text = ''
+        self.fields['password1'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Password'
+        })
         self.fields['password2'].help_text = ''
+        self.fields['password2'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Confirm Password'
+        })
 
 
 class SchoolUserEditForm(forms.ModelForm):
@@ -60,6 +83,12 @@ class SchoolUserEditForm(forms.ModelForm):
 class SchoolUserLoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({'class': 'form-control',
-                                                     'type': 'email'})
-        self.fields['password'].widget.attrs.update({'class': 'form-control'})
+        self.fields['username'].widget.attrs.update({
+            'class': 'form-control',
+            'type': 'email',
+            'placeholder': 'user@mallserver.domain'
+        })
+        self.fields['password'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Password'
+        })

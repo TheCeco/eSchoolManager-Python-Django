@@ -39,7 +39,7 @@
                             {% endfor %}
                             {% if request.user.groups.all.first.name == 'Teacher' %}
                                 <a href="{% url 'add_grade' student_id=student.pk subject_id=teachersubject.subject.pk %}">
-                                    <button style="float: right">&plus;</button>
+                                    <button style="float: right" class="button">&plus;</button>
                                 </a>
                             {% endif %}
                         </div>

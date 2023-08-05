@@ -15,11 +15,35 @@ class ApproveUsers(forms.ModelForm):
     )
 
     user_type = forms.ChoiceField(choices=USER_TYPES)
-    school_class = forms.ModelChoiceField(queryset=ClassesModel.objects.all(), required=False)
+    school_class = forms.ModelChoiceField(queryset=ClassesModel.objects.all(), required=False, widget=forms.Select)
 
     class Meta:
         model = UserModel
         fields = ['email', 'first_name', 'last_name', 'user_type', 'school_class']
+        widgets = {
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control'
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].disabled = True
+        self.fields['first_name'].disabled = True
+        self.fields['last_name'].disabled = True
+        self.fields['user_type'].widget.attrs.update({
+            'class': 'form-control',
+            'type': 'choice'})
+        self.fields['school_class'].widget.attrs.update({
+            'class': 'form-control',
+            'type': 'choice'
+        })
 
 
 class AssignSubjectsToTeachersForm(forms.ModelForm):
@@ -40,6 +64,14 @@ class AssignClassToTeacherForm(forms.ModelForm):
     class Meta:
         model = TeacherClass
         fields = '__all__'
+        widgets = {
+            'teacher': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'school_class': forms.Select(attrs={
+                'class': 'form-control'
+            })
+        }
 
 
 class EditTeacherSubject(AssignSubjectsToTeachersForm):

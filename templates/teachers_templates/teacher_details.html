@@ -16,7 +16,7 @@
                                 <p class="mb-0">{{ subject.subject.subject_name }}
                                     {% if request.user.groups.first.name == 'Principal' %}
                                         <a href="{% url 'edit_subject' teacher_id=object.pk subject_id=subject.subject_id %}">
-                                            <button>&#9998</button>
+                                            <button class="button">&#9998</button>
                                         </a>
                                         <a href="{% url 'delete_subject' teacher_id=object.pk subject_id=subject.subject_id %}">
                                             <button class="button-delete fa">&#XF014</button>
@@ -28,7 +28,7 @@
                                     <div>
                                         Add Subject:
                                         <a href="{% url 'assign_subject' pk=object.pk %}">
-                                            <button>&plus;</button>
+                                            <button class="button">&plus;</button>
                                         </a>
                                     </div>
                                 {% endif %}
@@ -44,7 +44,7 @@
                             {% elif request.user.groups.first.name == 'Teacher' %}
                                 <div class="edit-profile">
                                     <a href="{% url 'teacher_edit' pk=object.user_id %}">
-                                        <button>
+                                        <button class="button">
                                             Edit
                                         </button>
                                     </a>

@@ -61,7 +61,7 @@ class SchoolUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
         help_text="Designates whether the user can log into this admin site.",
     )
     is_active = models.BooleanField(
-        default=False,
+        default=True,
         help_text=(
             "Designates whether this user should be treated as active. "
             "Unselect this instead of deleting accounts."
@@ -70,7 +70,7 @@ class SchoolUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     date_joined = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['first_name', 'last_name']
+        ordering = ['pk', 'first_name', 'last_name']
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} ({self.email})'
