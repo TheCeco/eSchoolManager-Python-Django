@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth import models as auth_models
 from django.contrib.auth.hashers import make_password
 
+from eSchoolManager.accounts_app.validators import NoNumInName
+
 
 # Create your models here.
 class SchoolUserManager(auth_models.BaseUserManager):
@@ -47,13 +49,19 @@ class SchoolUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     first_name = models.CharField(
         max_length=40,
         blank=False,
-        null=False
+        null=False,
+        validators=[
+            NoNumInName()
+        ]
     )
 
     last_name = models.CharField(
         max_length=40,
         blank=False,
-        null=False
+        null=False,
+        validators=[
+            NoNumInName()
+        ]
     )
 
     is_staff = models.BooleanField(

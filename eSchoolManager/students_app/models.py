@@ -4,7 +4,7 @@ from django.db import models
 from eSchoolManager.accounts_app.models import SchoolUser
 from eSchoolManager.classes_app.models import ClassesModel
 from eSchoolManager.common_app.models import SubjectsModel, GradeModel
-from eSchoolManager.students_app.validators import CheckIfValidPhone, CheckIfValidLength
+from eSchoolManager.students_app.validators import CheckIfValidPhone, NoCharInNumber, MaxYearRange
 
 UserModel = get_user_model()
 
@@ -33,20 +33,23 @@ class StudentProfile(models.Model):
 
     date_of_birth = models.DateField(
         blank=True,
-        null=True
+        null=True,
+        validators=[
+            MaxYearRange()
+        ]
     )
 
     phone = models.CharField(
         validators=(
             CheckIfValidPhone(),
-            CheckIfValidLength()
+            NoCharInNumber()
         ),
         blank=True,
         null=True
     )
 
     address = models.CharField(
-        max_length=200,
+        max_length=75,
         blank=True,
         null=True
     )

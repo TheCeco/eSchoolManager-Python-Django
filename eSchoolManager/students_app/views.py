@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.utils.decorators import method_decorator
 from django.views import generic as views
 
@@ -25,7 +25,7 @@ class StudentDetailsView(views.DetailView):
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
         user_id = pk if pk else self.request.user.pk
-        return StudentProfile.objects.get(user_id=user_id)
+        return get_object_or_404(StudentProfile, user_id=user_id)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -40,7 +40,7 @@ class EditStudentProfileView(views.UpdateView):
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
-        obj = UserModel.objects.get(pk=pk)
+        obj = get_object_or_404(UserModel, pk=pk)
 
         if obj.groups.first().name == 'Student':
             return obj
@@ -79,11 +79,11 @@ class GradesDetailsView(views.DetailView):
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
-        return UserModel.objects.get(pk=pk)
+        return get_object_or_404(UserModel, pk=pk)
 
     def get_context_data(self, **kwargs):
         subjects = SubjectsModel.objects.all()
-        student = StudentProfile.objects.get(user=self.get_object())
+        student = get_object_or_404(StudentProfile, user=self.get_object())
         student_grades = AddGradeToStudentModel.objects.filter(student=student)
 
         context = super().get_context_data(**kwargs)
@@ -102,7 +102,7 @@ class GradesDetailsView(views.DetailView):
             average_grades[data.subject] += data.grade.grade
 
         for subject, grade in average_grades.items():
-            all_subject_grades = student_grades.filter(subject=subject)
+            all_subject_grades = get_list_or_404(student_grades, subject=subject)
             average_grades[subject] = grade / len(all_subject_grades)
 
         print(average_grades.items())
