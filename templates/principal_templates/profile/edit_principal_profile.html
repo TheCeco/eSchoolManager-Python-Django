@@ -1,11 +1,13 @@
 {% extends 'base_templates/base.html' %}
+{% load static %}
 {% block content %}
-    <form action="{% url 'edit_profile' pk=user.pk %}" method="post">
+    <form action="{% url 'edit_profile' pk=user.pk %}" method="post" id="principal-form">
         {% csrf_token %}
         <div class="container">
             <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12 edit_information">
                 <form action="" method="POST">
                     <h3 class="text-center">Edit Personal Information</h3>
+                    <div style="display: none">{{ p_errors|safe }}</div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
@@ -41,7 +43,6 @@
                             <div class="form-group">
                                 <label class="profile_details_text">Mobile Number:</label>
                                 {{ p_form.phone }}
-
                             </div>
                         </div>
                     </div>
@@ -80,4 +81,5 @@
             </div>
         </div>
     </form>
+    <script src="{% static 'edit_errors.js' %}" defer></script>
 {% endblock %}

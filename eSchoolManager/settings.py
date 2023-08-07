@@ -10,8 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 from pathlib import Path
-
-from django.conf.urls import handler404
 from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,11 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4h3c7hoh^#f5a8=tt7n(o26yjkb22yslg-6*zscopk1%^z%wv3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-handler404 = 'handlers_app.views.handler_404'
+handler404 = 'eSchoolManager.handlers_app.views.handler_404'
+handler403 = 'eSchoolManager.handlers_app.views.handler_403'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -47,7 +46,8 @@ INSTALLED_APPS = [
     'eSchoolManager.students_app',
     'eSchoolManager.teachers_app',
     'eSchoolManager.principal_app',
-    'eSchoolManager.classes_app'
+    'eSchoolManager.classes_app',
+    'eSchoolManager.handlers_app'
 ]
 
 MIDDLEWARE = [

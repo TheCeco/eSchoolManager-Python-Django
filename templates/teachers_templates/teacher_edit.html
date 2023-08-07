@@ -1,4 +1,5 @@
 {% extends 'base_templates/base.html' %}
+{% load static %}
 {% block content %}
     <form action="{% url 'teacher_edit' pk=user.pk %}" method="post">
         {% csrf_token %}
@@ -80,4 +81,5 @@
             </div>
         </div>
     </form>
+    <script src="{% static 'edit_errors.js' %}" defer></script>
 {% endblock %}

@@ -3,7 +3,7 @@ from django.db import models
 
 from eSchoolManager.accounts_app.models import SchoolUser
 from eSchoolManager.common_app.models import GradeModel, SubjectsModel
-from eSchoolManager.teachers_app.validators import CheckIfValidPhone, CheckIfValidLength
+from eSchoolManager.teachers_app import validators
 
 UserModel = get_user_model()
 
@@ -32,20 +32,23 @@ class TeacherProfile(models.Model):
 
     date_of_birth = models.DateField(
         blank=True,
-        null=True
+        null=True,
+        validators=[
+            validators.MaxYearRange()
+        ]
     )
 
     phone = models.CharField(
         validators=(
-            CheckIfValidPhone(),
-            CheckIfValidLength()
+            validators.CheckIfValidPhone(),
+            validators.NoCharInNumber()
         ),
         blank=True,
         null=True
     )
 
     address = models.CharField(
-        max_length=200,
+        max_length=75,
         blank=True,
         null=True
     )

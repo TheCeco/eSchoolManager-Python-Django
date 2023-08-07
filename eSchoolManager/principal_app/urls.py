@@ -7,6 +7,7 @@ from eSchoolManager.principal_app.views.teachers_views import get_all_teachers, 
     edit_subject, delete_teacher_subject
 from eSchoolManager.principal_app.views.users_views import approve_user, pending_users, DeleteUser
 
+
 urlpatterns = [
     path('details/', principal_details_view, name='principal_details'),
     path('details/edit/<int:pk>', EditPrincipalProfile.as_view(), name='edit_profile'),

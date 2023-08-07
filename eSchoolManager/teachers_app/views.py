@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.utils.decorators import method_decorator
 from django.views import generic as views
 
@@ -51,7 +51,7 @@ class EditTeacherProfile(views.UpdateView):
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
-        obj = UserModel.objects.get(pk=pk)
+        obj = get_object_or_404(UserModel, pk=pk)
 
         if obj.groups.first().name == 'Teacher':
             return obj
@@ -65,7 +65,7 @@ class EditTeacherProfile(views.UpdateView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.get_form()
-        p_form = self.form_class2(request.POST, instance=self.request.user.teacherprofile)
+        p_form = self.form_class2(request.POST or None, instance=self.request.user.teacherprofile)
 
         if form.is_valid() and p_form.is_valid():
             return self.form_valid(form, p_form)
@@ -91,7 +91,7 @@ class TeacherClasses(views.ListView):
 
     def get_queryset(self):
         teacher = self.request.user.teacherprofile
-        return TeacherClass.objects.filter(teacher_id=teacher.pk)
+        return get_list_or_404(TeacherClass, teacher_id=teacher.pk)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -104,13 +104,13 @@ class TeacherGradesTables(views.DetailView):
 
     def get_object(self, queryset=None):
         class_id = self.kwargs.get('class_id')
-        return StudentProfile.objects.filter(school_class_id=class_id)
+        return get_list_or_404(StudentProfile, school_class_id=class_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         pk = self.request.user.pk
-        teacher = TeacherProfile.objects.get(user_id=pk)
+        teacher = get_object_or_404(TeacherProfile, user_id=pk)
         student_subjects = AddGradeToStudentModel.objects.all()
         context['teacher'] = teacher
         context['student_subjects'] = student_subjects
@@ -150,7 +150,7 @@ class EditStudentGrade(views.UpdateView):
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
-        return AddGradeToStudentModel.objects.get(pk=pk)
+        return get_object_or_404(AddGradeToStudentModel, pk=pk)
 
     def form_valid(self, form):
         class_id = self.get_object().student.school_class.pk
@@ -175,8 +175,8 @@ class AddGrade(views.CreateView):
     def get_object(self, queryset=None):
         student_id = self.kwargs.get('student_id')
         subject_id = self.kwargs.get('subject_id')
-        student = StudentProfile.objects.get(pk=student_id)
-        subject = SubjectsModel.objects.get(pk=subject_id)
+        student = get_object_or_404(StudentProfile, pk=student_id)
+        subject = get_object_or_404(SubjectsModel, pk=subject_id)
         return [student, subject]
 
     def get_initial(self):
