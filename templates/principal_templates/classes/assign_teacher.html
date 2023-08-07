@@ -1,0 +1,33 @@
+{% extends 'base_templates/base.html' %}
+{% block content %}
+    <form action="{% url 'assign_teacher' %}" method="post">
+        {% csrf_token %}
+        <div class="container">
+            <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12 edit_information">
+                <h3 class="text-center">Assign teacher to class</h3>
+                <div class="assign-row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="profile_details_text">Teacher:</label>
+                            {{ form.teacher }}
+                        </div>
+                    </div>
+                </div>
+                <div class="assign-row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="profile_details_text">Class:</label>
+                            {{ form.school_class }}
+                        </div>
+                    </div>
+                </div>
+                <div class="assign-row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <input type="submit" value="Assign Teacher" class="button">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </form>
+{% endblock %}

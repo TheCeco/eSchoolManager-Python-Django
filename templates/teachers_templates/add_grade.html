@@ -1,0 +1,8 @@
+{% extends 'base_templates/base.html' %}
+{% block content %}
+    <form action="{% url 'add_grade' student_id=student.pk subject_id=subject.pk %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+        <input type="submit" class="button" value="Add Grade">
+    </form>
+{% endblock %}
