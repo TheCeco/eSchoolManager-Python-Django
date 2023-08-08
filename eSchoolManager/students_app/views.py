@@ -24,8 +24,11 @@ class StudentDetailsView(views.DetailView):
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
-        user_id = pk if pk else self.request.user.pk
-        return get_object_or_404(StudentProfile, user_id=user_id)
+        try:
+            user_id = pk if pk == self.request.user.pk else self.request.user.pk
+            return get_object_or_404(StudentProfile, user_id=user_id)
+        except:
+            return get_object_or_404(StudentProfile, user_id=pk)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -39,8 +42,7 @@ class EditStudentProfileView(views.UpdateView):
     form_class2 = EditStudentProfileForm
 
     def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')
-        obj = get_object_or_404(UserModel, pk=pk)
+        obj = get_object_or_404(UserModel, pk=self.request.user.pk)
 
         if obj.groups.first().name == 'Student':
             return obj
@@ -64,7 +66,7 @@ class EditStudentProfileView(views.UpdateView):
     def form_valid(self, form, p_form):
         form.save()
         p_form.save()
-        return redirect('student_details', pk=self.kwargs.get('pk'))
+        return redirect('student_details', pk=self.request.user.pk)
 
     def form_invalid(self, form, p_form):
         return self.render_to_response(self.get_context_data(form=form, p_form=p_form))
@@ -79,7 +81,11 @@ class GradesDetailsView(views.DetailView):
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
-        return get_object_or_404(UserModel, pk=pk)
+        try:
+            user_id = pk if pk == self.request.user.pk else self.request.user.pk
+            return get_object_or_404(UserModel, pk=user_id)
+        except:
+            return get_object_or_404(UserModel, pk=pk)
 
     def get_context_data(self, **kwargs):
         subjects = SubjectsModel.objects.all()

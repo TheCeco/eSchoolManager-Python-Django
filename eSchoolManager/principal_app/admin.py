@@ -12,5 +12,6 @@ class PrincipalProfileAdmin(admin.ModelAdmin):
 @admin.register(TeacherSubjects)
 class TeacherSubjectsAdmin(admin.ModelAdmin):
     list_display = ['teacher', 'subject']
+    list_filter = ['subject']
 
 

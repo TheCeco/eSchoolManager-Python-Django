@@ -1,10 +1,13 @@
 {% extends 'base_templates/base.html' %}
 {% block content %}
-    <ul>
-        {% for class in object_list %}
-            <li>
-                <a href="{% url 'students_in_class' class_id=class.school_class.pk %}">{{ class.school_class }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="classes-container">
+        <ul class="ul-classes">
+            {% for class in object_list %}
+                <li class="li-classes">
+                    <a class="class-value"
+                       href="{% url 'students_in_class' class_id=class.school_class.pk %}">{{ class.school_class }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

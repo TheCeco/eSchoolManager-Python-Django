@@ -1,4 +1,4 @@
-body {
+.error-body {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -13,31 +13,31 @@ body {
 }
 
 .error-emoji {
-    font-size: 8rem;
+    font-size: 13rem;
     margin-bottom: 20px;
 }
 
 h1.error {
-    font-size: 3rem;
+    font-size: 5rem;
     margin-bottom: 20px;
 }
 
-p.error  {
-    font-size: 1.5rem;
+p.error {
+    font-size: 2.5rem;
     margin-bottom: 20px;
 }
 
-.btn {
-    font-size: 1.25rem;
-    padding: 10px 20px;
-}
+/*.btn {*/
+/*    font-size: 1.25rem;*/
+/*    padding: 10px 20px;*/
+/*}*/
 
-.btn-primary {
-    background-color: #04AA6D;
-    border-color: #04AA6D;
-}
+/*.btn-primary {*/
+/*    background-color: #04AA6D;*/
+/*    border-color: #04AA6D;*/
+/*}*/
 
-.btn-primary:hover {
-    background-color: #026c46;
-    border-color: #026c46;
-}
+/*.btn-primary:hover {*/
+/*    background-color: #026c46;*/
+/*    border-color: #026c46;*/
+/*}*/
