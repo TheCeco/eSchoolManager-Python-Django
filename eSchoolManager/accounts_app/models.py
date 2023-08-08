@@ -40,14 +40,15 @@ class SchoolUserManager(auth_models.BaseUserManager):
 
 class SchoolUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    FIRST_NAME_MAX_LENGTH = 40
+    LAST_NAME_MAX_LENGTH = 40
 
     objects = SchoolUserManager()
 
     email = models.EmailField(unique=True, blank=False, null=False)
 
     first_name = models.CharField(
-        max_length=40,
+        max_length=FIRST_NAME_MAX_LENGTH,
         blank=False,
         null=False,
         validators=[
@@ -56,7 +57,7 @@ class SchoolUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     )
 
     last_name = models.CharField(
-        max_length=40,
+        max_length=LAST_NAME_MAX_LENGTH,
         blank=False,
         null=False,
         validators=[
