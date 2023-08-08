@@ -26,8 +26,11 @@ class TeacherDetailsView(views.DetailView):
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
-        user_id = pk if pk else self.request.user.pk
-        return TeacherProfile.objects.get(user_id=user_id)
+        try:
+            user_id = pk if pk == self.request.user.pk else self.request.user.pk
+            return get_object_or_404(TeacherProfile, user_id=user_id)
+        except:
+            return get_object_or_404(TeacherProfile, user_id=pk)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -50,8 +53,7 @@ class EditTeacherProfile(views.UpdateView):
     form_class2 = EditTeacherProfileForm
 
     def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')
-        obj = get_object_or_404(UserModel, pk=pk)
+        obj = get_object_or_404(UserModel, pk=self.request.user.pk)
 
         if obj.groups.first().name == 'Teacher':
             return obj
@@ -91,7 +93,7 @@ class TeacherClasses(views.ListView):
 
     def get_queryset(self):
         teacher = self.request.user.teacherprofile
-        return get_list_or_404(TeacherClass, teacher_id=teacher.pk)
+        return TeacherClass.objects.filter(teacher_id=teacher.pk)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -104,7 +106,7 @@ class TeacherGradesTables(views.DetailView):
 
     def get_object(self, queryset=None):
         class_id = self.kwargs.get('class_id')
-        return get_list_or_404(StudentProfile, school_class_id=class_id)
+        return StudentProfile.objects.filter(school_class_id=class_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
