@@ -10,6 +10,8 @@ UserModel = get_user_model()
 
 # Create your models here.
 class TeacherProfile(models.Model):
+    MIN_YEAR_RANGE = 100
+
     GENDER = (
         ('male', 'Male'),
         ('female', 'Female')
@@ -34,7 +36,7 @@ class TeacherProfile(models.Model):
         blank=True,
         null=True,
         validators=[
-            validators.MaxYearRange()
+            validators.MaxYearRange(MIN_YEAR_RANGE)
         ]
     )
 

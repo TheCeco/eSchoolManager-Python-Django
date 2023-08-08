@@ -1,14 +1,21 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+from eSchoolManager.common_app.validators import NoNumInName
+
 
 # Create your models here.
 class SubjectsModel(models.Model):
+    SUBJECT_NAME_MAX_LENGTH = 50
+
     subject_name = models.CharField(
-        max_length=50,
+        max_length=SUBJECT_NAME_MAX_LENGTH,
         blank=False,
         null=False,
-        unique=True
+        unique=True,
+        validators=[
+            NoNumInName()
+        ]
     )
 
     def __str__(self):
