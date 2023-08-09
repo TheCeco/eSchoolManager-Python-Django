@@ -1,0 +1,8 @@
+{% extends 'base_templates/base.html' %}
+{% block content %}
+    <form action="{% url 'delete_teachers' pk=object.pk %}" method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete this teacher?</p>
+        <input type="submit" value="Delete" class="button-delete">
+    </form>
+{% endblock %}

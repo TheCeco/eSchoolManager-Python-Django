@@ -55,5 +55,5 @@ def send_successful_approval_email(user):
         message=plain_message,
         html_message=html_message,
         from_email='info@eSchoolManager.com',
-        recipient_list=('tsvetandjangodemo@gmail.com',)
+        recipient_list=(user.email,)
     )

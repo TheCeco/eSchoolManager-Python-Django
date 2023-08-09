@@ -2,6 +2,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views import generic as views
 
 from eSchoolManager.common_app.forms import SearchForm
 from eSchoolManager.principal_app.forms import EditTeacherSubject, AssignSubjectsToTeachersForm
@@ -9,6 +12,7 @@ from eSchoolManager.principal_app.models import TeacherSubjects
 from eSchoolManager.teachers_app.models import TeacherProfile
 
 UserModel = get_user_model()
+
 
 @login_required
 @permission_required('principal_app.view_teachersubjects', raise_exception=True)
@@ -22,14 +26,14 @@ def get_all_teachers(request):
 
         if search_form.is_valid():
             search_query = search_form.cleaned_data['search_query']
-            teachers = get_list_or_404(teachers, user__first_name__icontains=search_query) \
-                       or get_list_or_404(teachers, user__last_name__icontains=search_query)
+            teachers = teachers.filter(user__first_name__icontains=search_query) \
+                       or teachers.filter(user__last_name__icontains=search_query)
 
     else:
-        teachers = get_list_or_404(teachers, user__first_name__icontains=search_query) \
-                       or get_list_or_404(teachers, user__last_name__icontains=search_query)
+        teachers = teachers.filter(user__first_name__icontains=search_query) \
+                       or teachers.filter(user__last_name__icontains=search_query)
 
-    paginator = Paginator(teachers, 6)
+    paginator = Paginator(teachers, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -95,3 +99,23 @@ def delete_teacher_subject(request, teacher_id, subject_id):
     subject = get_object_or_404(TeacherSubjects, teacher=teacher, subject_id=subject_id)
     subject.delete()
     return redirect('teacher_details', pk=teacher.user_id)
+
+
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required({
+    'teachers_app.delete_teacherprofile',
+    'students_app.delete_studentprofile',
+    'accounts_app.delete_schooluser'
+}, raise_exception=True), name='dispatch')
+class DeleteTeacher(views.DeleteView):
+    template_name = 'principal_templates/teachers/delete_teachers.html'
+    success_url = reverse_lazy('teachers_view')
+
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        return get_object_or_404(UserModel, pk=pk)
+
+    def delete(self, request, *args, **kwargs):
+        teacher = self.get_object()
+        teacher.delete()
+        return self.success_url
