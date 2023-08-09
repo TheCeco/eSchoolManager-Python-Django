@@ -1,13 +1,17 @@
 {% extends 'base_templates/base.html' %}
 {% block content %}
-    <div class="classes-container">
-        <ul class="ul-classes">
-            {% for class in object_list %}
-                <li class="li-classes">
-                    <a class="class-value"
-                       href="{% url 'students_in_class' class_id=class.pk %}">{{ class }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+    {% if object_list is not None %}
+        <div class="classes-container">
+            <ul class="ul-classes">
+                {% for class in object_list %}
+                    <li class="li-classes">
+                        <a class="class-value"
+                           href="{% url 'students_in_class' class_id=class.pk %}">{{ class }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <p>No classes!</p>
+    {% endif %}
 {% endblock %}

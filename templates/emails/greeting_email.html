@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSchoolManager</title>
+</head>
+<body style="display: flex;
+			justify-content: center;">
+<div style="display: flex;
+			justify-content: center;
+			border: 3px solid rgb(65, 63, 63);
+			border-radius: 20px;
+			margin: 2%;
+			max-width: 620px;">
+    <div>
+        <table>
+            <nav style="">
+                <img style="width: 4rem;
+			 margin-top: 10px;
+			 margin-left: -4px;
+			 height: 3.3rem;"
+                     src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRvUfKf6o_RWDIhGwEjBJaGjelWN2TmVg5DhEsUmj1Rs04Ef5Lz"
+                     alt="Logo">
+            </nav>
+        </table>
+
+        <h1 style="			text-align: center;
+                color: rgb(65, 63, 63);
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+
+            <!-- Receiver username -->
+            Hello, {{ user.get_full_name }} !</h1>
+
+        <div style="display: flex;
+                    padding-left: 10rem">
+            <img style="width: 25%;" id="cat-image"
+                 src="https://fonts.gstatic.com/s/e/notoemoji/15.0/1f393/72.png"
+                 alt="cap">
+        </div>
+
+        <p style="max-width: 620px;
+            padding: 20px 20px 0 20px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+            Congratulations! You are approved for our eSchoolManager system as {{ user.groups.first.name }}
+        </p>
+        <p style="max-width: 620px;
+            padding: 20px 20px 0 20px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+            Sincerely,
+            <br>
+            eSchoolManager's team
+            <img style="width: 10%;
+            margin-top: 10px;
+            margin-left: -4px;"
+                 src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRvUfKf6o_RWDIhGwEjBJaGjelWN2TmVg5DhEsUmj1Rs04Ef5Lz"
+                 alt="Logo">
+        </p>
+    </div>
+</div>
+</body>
+</html>
