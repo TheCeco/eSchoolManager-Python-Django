@@ -26,11 +26,10 @@ class ClassDetailsView(views.DetailView):
 
     def get_context_data(self, **kwargs):
         class_value = self.get_object()
-        teacher_class = TeacherClass.objects.filter(school_class=class_value)
         student_class = StudentProfile.objects.filter(school_class=class_value)
 
         context = super().get_context_data(**kwargs)
-        context['teachers'] = teacher_class
+        context['teachers'] = self.get_teachers_unique(class_value)
         context['students'] = student_class
 
         return context
@@ -38,3 +37,13 @@ class ClassDetailsView(views.DetailView):
     def get_object(self, queryset=None):
         class_id = self.kwargs.get('pk')
         return get_object_or_404(ClassesModel, pk=class_id)
+
+    def get_teachers_unique(self, class_value):
+        teacher_class = TeacherClass.objects.filter(school_class=class_value)
+        teachers = []
+
+        for teacher in teacher_class:
+            if teacher.teacher.user.get_full_name() not in teachers:
+                teachers.append(teacher.teacher.user.get_full_name())
+
+        return teachers

@@ -35,11 +35,21 @@ class TeacherDetailsView(views.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['teacher_subjects'] = TeacherSubjects.objects.filter(teacher=self.get_object())
-        context['classes'] = TeacherClass.objects.filter(teacher=self.get_object())
+        context['classes'] = self.get_class_unique()
 
         print(context['classes'])
 
         return context
+
+    def get_class_unique(self):
+        teacher_classes = TeacherClass.objects.filter(teacher=self.get_object())
+        unique_classes = []
+
+        for clas in teacher_classes:
+            if clas.school_class not in unique_classes:
+                unique_classes.append(clas.school_class)
+
+        return unique_classes
 
 
 @method_decorator(login_required, name='dispatch')
@@ -93,7 +103,14 @@ class TeacherClasses(views.ListView):
 
     def get_queryset(self):
         teacher = self.request.user.teacherprofile
-        return TeacherClass.objects.filter(teacher_id=teacher.pk)
+        classes = TeacherClass.objects.filter(teacher_id=teacher.pk)
+        unique_classes = []
+
+        for clas in classes:
+            if clas.school_class not in unique_classes:
+                unique_classes.append(clas.school_class)
+
+        return unique_classes
 
 
 @method_decorator(login_required, name='dispatch')

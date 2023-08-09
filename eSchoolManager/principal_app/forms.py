@@ -70,7 +70,18 @@ class AssignClassToTeacherForm(forms.ModelForm):
             }),
             'school_class': forms.Select(attrs={
                 'class': 'form-control'
+            }),
+            'subject': forms.Select(attrs={
+                'class': 'form-control'
             })
+        }
+        labels = {
+            'teacher': 'Teacher Name:',
+            'subject': 'Subject Name:',
+            'school_class': 'Class:'
+        }
+        error_messages = {
+
         }
 
 
