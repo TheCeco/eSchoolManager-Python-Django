@@ -35,7 +35,7 @@
                             </div>
                             {% if request.user.groups.first.name == 'Principal' %}
                                 <div class="delete-confirmation">
-                                    <a href="{% url 'delete_users' pk=object.user_id %} ">
+                                    <a href="{% url 'delete_teachers' pk=object.user_id %} ">
                                         <button class="button-delete">
                                             Delete
                                         </button>

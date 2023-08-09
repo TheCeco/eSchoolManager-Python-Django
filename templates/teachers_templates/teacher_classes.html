@@ -1,6 +1,6 @@
 {% extends 'base_templates/base.html' %}
 {% block content %}
-    {% if object_list is not None %}
+    {% if object_list %}
         <div class="classes-container">
             <ul class="ul-classes">
                 {% for class in object_list %}
