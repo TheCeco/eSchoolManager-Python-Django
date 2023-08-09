@@ -1,5 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 from eSchoolManager.students_app.models import StudentProfile
 from eSchoolManager.teachers_app.models import TeacherProfile
@@ -32,8 +35,25 @@ def add_user_to_group(user_type, pk):
         user = UserModel.objects.get(pk=pk)
         group = Group.objects.get(name=group_name)
         user.groups.add(group)
-        return True, f'{user.get_full_name()} added to a group {group_name} successfully'
+        return send_successful_approval_email(user)
     except UserModel.DoesNotExist:
         return False, "User not found."
     except Group.DoesNotExist:
         return False, "Group not found."
+
+
+def send_successful_approval_email(user):
+    html_message = render_to_string(
+        'emails/greeting_email.html',
+        {'user': user}
+    )
+
+    plain_message = strip_tags(html_message)
+
+    send_mail(
+        subject='Welcome to eSchoolManager!',
+        message=plain_message,
+        html_message=html_message,
+        from_email='info@eSchoolManager.com',
+        recipient_list=('tsvetandjangodemo@gmail.com',)
+    )
