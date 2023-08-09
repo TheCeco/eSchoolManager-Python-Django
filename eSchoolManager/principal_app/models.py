@@ -13,6 +13,8 @@ UserModel = get_user_model()
 
 # Create your models here.
 class PrincipalProfile(models.Model):
+    MAX_YEAR_RANGE = 100
+
     GENDER = (
         ('male', 'Male'),
         ('female', 'Female')
@@ -37,7 +39,7 @@ class PrincipalProfile(models.Model):
         blank=True,
         null=True,
         validators=[
-            validators.MaxYearRange()
+            validators.MaxYearRange(MAX_YEAR_RANGE)
         ]
     )
 

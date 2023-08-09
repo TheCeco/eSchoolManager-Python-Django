@@ -11,6 +11,8 @@ UserModel = get_user_model()
 
 # Create your models here.
 class StudentProfile(models.Model):
+    MAX_YEAR_RANGE = 100
+
     GENDER = (
         ('male', 'Male'),
         ('female', 'Female')
@@ -35,7 +37,7 @@ class StudentProfile(models.Model):
         blank=True,
         null=True,
         validators=[
-            MaxYearRange()
+            MaxYearRange(MAX_YEAR_RANGE)
         ]
     )
 

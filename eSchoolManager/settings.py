@@ -23,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4h3c7hoh^#f5a8=tt7n(o26yjkb22yslg-6*zscopk1%^z%wv3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 handler404 = 'eSchoolManager.handlers_app.views.handler_404'
 handler403 = 'eSchoolManager.handlers_app.views.handler_403'
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition

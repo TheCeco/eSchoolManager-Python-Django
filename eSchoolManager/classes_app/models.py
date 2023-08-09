@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 
+from eSchoolManager.common_app.models import SubjectsModel
 from eSchoolManager.teachers_app.models import TeacherProfile
 
 
@@ -33,15 +34,20 @@ class ClassesModel(models.Model):
 class TeacherClass(models.Model):
     teacher = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
     school_class = models.ForeignKey(ClassesModel, on_delete=models.CASCADE)
+    subject = models.ForeignKey(SubjectsModel, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('teacher', 'school_class')
+        unique_together = ('teacher', 'school_class', 'subject')
         ordering = ['school_class']
 
     def validate_unique(self, exclude=None):
-        qs = TeacherClass.objects.filter(teacher=self.teacher, school_class=self.school_class)
+        qs = TeacherClass.objects.filter(teacher=self.teacher, school_class=self.school_class, subject=self.subject)
         if qs.exists():
-            raise ValidationError('This teacher is already assigned this class.')
+            raise ValidationError('This teacher already teaches in this class with this subject')
+
+        qs = TeacherClass.objects.filter(subject=self.subject, school_class=self.school_class)
+        if qs.exists():
+            raise ValidationError('There is a teacher with this subject in this class already.')
 
     def __str__(self):
         return f'{self.teacher} {self.school_class}'
