@@ -1,8 +1,9 @@
 {% extends 'base_templates/base.html' %}
 {% block content %}
-    <form action="{% url 'delete_students' pk=object.pk %}" method="post">
+    <form action="{% url 'delete_students' pk=object.pk %}" method="post" class="form-delete">
         {% csrf_token %}
-        <p>Are you sure you want to delete this student?</p>
-        <input type="submit" value="Delete" class="button-delete">
+        <div class="attention-emoji">❗️</div>
+        <p class="delete-text"><strong>Are you sure you want to delete this student?</strong></p>
+        <input type="submit" value="Delete" class="button-delete delete-button-position">
     </form>
 {% endblock %}

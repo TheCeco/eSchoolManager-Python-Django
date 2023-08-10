@@ -1,8 +1,20 @@
 {% extends 'base_templates/base.html' %}
+{% load static %}
 {% block content %}
-    <form action="{% url 'edit_subject' teacher_id=teacher_id subject_id=subject_id %}" method="post" class="post-form">
+    <form action="{% url 'edit_subject' teacher_id=teacher_id subject_id=subject_id %}" method="post"
+          class="edit-subject-form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Edit" class="button">
+        <h3>Edit teacher subject</h3>
+        {% for field in form %}
+            <div class="assign-row row">
+                <label class="profile_details_text">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <div class="row">
+            {{ form.errors }}
+        </div>
+        <input type="submit" value="Edit Subject" class="button">
     </form>
+    <script src="{% static 'assign_subject_teacher.js' %}"></script>
 {% endblock %}

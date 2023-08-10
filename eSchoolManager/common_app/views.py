@@ -1,9 +1,8 @@
 from django.views import generic as views
 from django.contrib.auth import get_user_model
-from django.shortcuts import render
 
-from eSchoolManager.accounts_app.models import SchoolUser
 from eSchoolManager.common_app.models import SubjectsModel
+from eSchoolManager.students_app.models import StudentProfile
 from eSchoolManager.teachers_app.models import TeacherProfile
 
 UserModel = get_user_model()
@@ -25,10 +24,12 @@ class AboutView(views.TemplateView):
         context = super().get_context_data(**kwargs)
         subjects = SubjectsModel.objects.all()
         teachers = TeacherProfile.objects.all()
+        students = StudentProfile.objects.all()
 
         context = {
             'subjects': subjects,
-            'teachers': teachers
+            'teachers': teachers,
+            'students': students
         }
 
         return context

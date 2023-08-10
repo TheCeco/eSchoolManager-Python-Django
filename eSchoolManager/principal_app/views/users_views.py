@@ -1,15 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
-from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
-from django.views import generic as views
+from django.shortcuts import render, redirect, get_object_or_404
 
 from eSchoolManager.common_app.forms import SearchForm
 from eSchoolManager.principal_app.controller import check_user_type
 from eSchoolManager.principal_app.forms import ApproveUsers
-from eSchoolManager.teachers_app.models import TeacherProfile
 
 UserModel = get_user_model()
 
@@ -31,9 +27,9 @@ def pending_users(request):
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
             search_query = search_form.cleaned_data['search_query']
-            users = get_list_or_404(users, email__icontains=search_query)
+            users = users.filter(email__icontains=search_query)
     else:
-        users = get_list_or_404(users, email__icontains=search_query)
+        users = users.filter(email__icontains=search_query)
 
     paginator = Paginator(users, 5)
     page_number = request.GET.get('page')

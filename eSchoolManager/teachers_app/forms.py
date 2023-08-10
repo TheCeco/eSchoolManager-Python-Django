@@ -34,6 +34,17 @@ class GradeToStudentForm(forms.ModelForm):
     class Meta:
         model = AddGradeToStudentModel
         fields = '__all__'
+        widgets = {
+            'grade': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'student': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'subject': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

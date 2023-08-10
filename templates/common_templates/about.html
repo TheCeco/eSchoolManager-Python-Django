@@ -27,13 +27,16 @@
                 </ul>
             </div>
 
-            <div class="about-teachers">
+            <div class="about-users">
                 <h2>Teachers:</h2>
-                <ul>
-                    {% for teacher in teachers %}
-                        <li>{{ teacher.user.get_full_name }}</li>
-                    {% endfor %}
-                </ul>
+                <div class="profile-count">
+                    {{ teachers.count }}
+                </div>
+
+                <h2>Students:</h2>
+                <div class="profile-count">
+                    {{ students.count }}
+                </div>
             </div>
         </div>
 

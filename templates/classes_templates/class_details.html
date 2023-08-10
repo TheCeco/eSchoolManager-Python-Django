@@ -1,15 +1,18 @@
 {% extends 'base_templates/base.html' %}
 {% block content %}
-    <p>
-        Teachers:
-        {% for teacher in teachers %}
-            <div>{{ teacher }} </div>
-        {% endfor %}
-    </p>
-    <p>
-        Students:
-        {% for student in students %}
-            <div>{{ student.user.get_full_name }}</div>
-        {% endfor %}
-    </p>
+    <div class="class-info">
+        <h3>Teachers: </h3>
+        <div class="users-in-class">
+            {% for teacher in teachers %}
+                <div class="users-in-class-name"><span>{{ forloop.counter }}.</span> {{ teacher }} </div>
+            {% endfor %}
+        </div>
+        <h3>Students: </h3>
+        <div class="users-in-class">
+            {% for student in students %}
+                <div class="users-in-class-name"><span>{{ forloop.counter }}.</span> {{ student.user.get_full_name }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

@@ -1,8 +1,21 @@
 {% extends 'base_templates/base.html' %}
+{% load static %}
 {% block content %}
-    <form action="{% url 'assign_subject' pk=teacher.pk %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <form action="{% url 'assign_subject' pk=teacher.pk %}" method="post" class="assign-form">
+        {% csrf_token %}
+        <h3 class="text-center">Assign subject to teacher</h3>
+        {% for field in form %}
+            <div class="assign-row row">
+                <label class="profile_details_text">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <div class="row">
+            {{ form.errors }}
+        </div>
         <input type="submit" value="Add Subject" class="button">
     </form>
+    <script src="{% static 'assign_subject_teacher.js' %}">
+
+    </script>
 {% endblock %}

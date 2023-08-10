@@ -58,6 +58,8 @@ class AssignSubjectsToTeachersForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['teacher'].disabled = True
+        self.fields['teacher'].widget.attrs = {'class': 'form-control'}
+        self.fields['subject'].widget.attrs = {'class': 'form-control'}
 
 
 class AssignClassToTeacherForm(forms.ModelForm):
