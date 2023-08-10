@@ -30,16 +30,11 @@ def create_user_profile(user_type, form, pk):
 
 
 def add_user_to_group(user_type, pk):
-    try:
-        group_name = user_type.capitalize()
-        user = UserModel.objects.get(pk=pk)
-        group = Group.objects.get(name=group_name)
-        user.groups.add(group)
-        return send_successful_approval_email(user)
-    except UserModel.DoesNotExist:
-        return False, "User not found."
-    except Group.DoesNotExist:
-        return False, "Group not found."
+    group_name = user_type.capitalize()
+    user = UserModel.objects.get(pk=pk)
+    group = Group.objects.get(name=group_name)
+    user.groups.add(group)
+    return send_successful_approval_email(user)
 
 
 def send_successful_approval_email(user):

@@ -1,8 +1,17 @@
 {% extends 'base_templates/base.html' %}
 {% block content %}
-    <form action="{% url 'edit_student_grade' pk=object.pk %}" method="post">
+    <form action="{% url 'edit_student_grade' pk=object.pk %}" method="post" class="edit-grade-form">
         {% csrf_token %}
-        {{ form.as_p }}
+    <h3 class="text-center">Edit student grade</h3>
+        {% for field in form %}
+            <div class="assign-row row">
+                <label class="profile_details_text">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <div class="row">
+            {{ form.errors }}
+        </div>
         <input type="submit" name="action" class="button" value="Edit Grade">
         <input type="submit" name="action" class="button-delete" value="Delete Grade">
     </form>

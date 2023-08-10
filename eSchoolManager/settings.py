@@ -26,6 +26,7 @@ DEBUG = True
 
 handler404 = 'eSchoolManager.handlers_app.views.handler_404'
 handler403 = 'eSchoolManager.handlers_app.views.handler_403'
+handler500 = 'eSchoolManager.handlers_app.views.handler_500'
 
 ALLOWED_HOSTS = []
 

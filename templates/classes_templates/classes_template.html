@@ -8,14 +8,20 @@
         </a>
     {% endif %}
     <div class="classes-container">
-        <ul class="ul-classes">
-            {% for class in object_list %}
-                <li class="li-classes">
-                    <a href="{% url 'classes_details' pk=class.pk %}" class="class-value">
-                        {{ class }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+        {% if object_list %}
+            <ul class="ul-classes">
+                {% for class in object_list %}
+                    <li class="li-classes">
+                        <a href="{% url 'classes_details' pk=class.pk %}" class="class-value">
+                            {{ class }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="no-data">
+                No classes!
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

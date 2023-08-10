@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Page Not Found</title>
+    <title>500 Server Error</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -19,13 +18,13 @@
 </header>
 <div class="error-body">
     <div class="error-container">
-        <div class="error-emoji">😕</div>
-        <h1 class="error">404 Oops! Page Not Found</h1>
-        <p class="error">We couldn't find the page you were looking for.</p>
+        <div class="error-emoji">😵‍💫</div>
+        <h1 class="error">500 Internal Server Error!</h1>
+        <p class="error">Something went wrong with the server...</p>
     </div>
 </div>
 <footer id="footer">
     {% include 'base_templates/footer.html' %}
 </footer>
 </body>
-</html>
+{#</html>#}
