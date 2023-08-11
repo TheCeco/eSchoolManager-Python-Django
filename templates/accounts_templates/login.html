@@ -7,6 +7,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Login" class="button authenticate-button">
+        <input type="hidden" name="next" value="{{ request.GET.next }}"/>
         <div class="redirect-url">
             Do not have registration? <a href="{% url 'register' %}">Register</a>
         </div>

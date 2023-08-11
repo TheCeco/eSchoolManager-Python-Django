@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'eSchoolManager.teachers_app',
     'eSchoolManager.principal_app',
     'eSchoolManager.classes_app',
-    'eSchoolManager.handlers_app'
+    'eSchoolManager.handlers_app',
 ]
 
 MIDDLEWARE = [

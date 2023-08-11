@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 
 from eSchoolManager.common_app.forms import SearchForm
-from eSchoolManager.principal_app.controller import check_user_type
+from eSchoolManager.principal_app.tasks import check_user_type
 from eSchoolManager.principal_app.forms import ApproveUsers
 
 UserModel = get_user_model()
