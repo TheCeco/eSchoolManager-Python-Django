@@ -41,13 +41,13 @@ class TeacherClass(models.Model):
         ordering = ['school_class']
 
     def validate_unique(self, exclude=None):
-        qs = TeacherClass.objects.filter(teacher=self.teacher, school_class=self.school_class, subject=self.subject)
+        qs = TeacherClass.objects.get(teacher=self.teacher, school_class=self.school_class, subject=self.subject)
         if qs.exists():
             raise ValidationError('This teacher already teaches in this class with this subject')
 
-        qs = TeacherClass.objects.filter(subject=self.subject, school_class=self.school_class)
+        qs = TeacherClass.objects.get(subject=self.subject, school_class=self.school_class)
         if qs.exists():
             raise ValidationError('There is a teacher with this subject in this class already.')
 
     def __str__(self):
-        return f'{self.teacher} {self.school_class}'
+        return f'{self.teacher} {self.school_class} {self.subject}'
