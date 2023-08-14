@@ -52,3 +52,7 @@ def send_successful_approval_email(user):
         from_email='info@eSchoolManager.com',
         recipient_list=(user.email,)
     )
+
+def remove_teacher_from_classes(classes):
+    for clas in classes:
+        clas.delete()

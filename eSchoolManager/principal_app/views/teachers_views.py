@@ -1,14 +1,17 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import generic as views
 
+from eSchoolManager.classes_app.models import TeacherClass
 from eSchoolManager.common_app.forms import SearchForm
 from eSchoolManager.principal_app.forms import EditTeacherSubject, AssignSubjectsToTeachersForm
 from eSchoolManager.principal_app.models import TeacherSubjects
+from eSchoolManager.principal_app.tasks import remove_teacher_from_classes
 from eSchoolManager.teachers_app.models import TeacherProfile
 
 UserModel = get_user_model()
@@ -31,7 +34,7 @@ def get_all_teachers(request):
 
     else:
         teachers = teachers.filter(user__first_name__icontains=search_query) \
-                       or teachers.filter(user__last_name__icontains=search_query)
+                   or teachers.filter(user__last_name__icontains=search_query)
 
     paginator = Paginator(teachers, 5)
     page_number = request.GET.get('page')
@@ -97,7 +100,9 @@ def edit_subject(request, teacher_id, subject_id):
 def delete_teacher_subject(request, teacher_id, subject_id):
     teacher = get_object_or_404(TeacherProfile, pk=teacher_id)
     subject = get_object_or_404(TeacherSubjects, teacher=teacher, subject_id=subject_id)
+    teacher_classes = TeacherClass.objects.filter(teacher=teacher, subject_id=subject_id)
     subject.delete()
+    remove_teacher_from_classes(teacher_classes)
     return redirect('teacher_details', pk=teacher.user_id)
 
 

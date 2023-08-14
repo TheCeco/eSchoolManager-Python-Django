@@ -76,7 +76,7 @@ button, .button {
 .grades th.subject-name {
     padding-top: 12px;
     padding-bottom: 12px;
-    background-color: #3CB043;
+    background-color: #52CC7A;
     color: white;
 }
 
@@ -594,9 +594,8 @@ form.input-search label {
 }
 
 .subject-select {
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -80%);
     width: 50%;
+    margin-left: 50%;
+    margin-bottom: 10px;
+    transform: translate(-50%);
 }

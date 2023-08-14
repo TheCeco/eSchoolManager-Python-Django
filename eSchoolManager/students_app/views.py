@@ -7,6 +7,7 @@ from django.views import generic as views
 
 from eSchoolManager.accounts_app.forms import SchoolUserEditForm
 from eSchoolManager.common_app.models import SubjectsModel
+from eSchoolManager.mixins.user_details_mixins import UserProfileDetailsMixin
 from eSchoolManager.students_app.forms import EditStudentProfileForm
 from eSchoolManager.students_app.models import StudentProfile, AddGradeToStudentModel
 
@@ -19,16 +20,9 @@ UserModel = get_user_model()
     'students_app.view_studentprofile',
     'accounts_app.view_schooluser'
 }, raise_exception=True), name='dispatch')
-class StudentDetailsView(views.DetailView):
+class StudentDetailsView(UserProfileDetailsMixin):
     template_name = 'students_templates/student_details.html'
-
-    def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')
-        try:
-            user_id = pk if pk == self.request.user.pk else self.request.user.pk
-            return get_object_or_404(StudentProfile, user_id=user_id)
-        except:
-            return get_object_or_404(StudentProfile, user_id=pk)
+    profile = StudentProfile
 
 
 @method_decorator(login_required, name='dispatch')
@@ -102,14 +96,16 @@ class GradesDetailsView(views.DetailView):
     def get_average_grades(self, student_grades):
         average_grades = {}
         for data in student_grades:
+            # Check if subject in dict if not add it
             if data.subject not in average_grades:
                 average_grades[data.subject] = 0
 
+            # Adding the grade to the subject
             average_grades[data.subject] += data.grade.grade
 
+        # Calculating the sum of the grades per subject to average grade
         for subject, grade in average_grades.items():
             all_subject_grades = get_list_or_404(student_grades, subject=subject)
             average_grades[subject] = grade / len(all_subject_grades)
 
-        print(average_grades.items())
         return average_grades

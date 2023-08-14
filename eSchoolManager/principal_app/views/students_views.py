@@ -11,6 +11,7 @@ from eSchoolManager.students_app.models import StudentProfile
 
 UserModel = get_user_model()
 
+
 @login_required
 @permission_required('students_app.view_studentprofile', raise_exception=True)
 def get_all_students(request):
@@ -28,7 +29,7 @@ def get_all_students(request):
 
     else:
         students = students.filter(user__first_name__icontains=search_query) \
-                       or students.filter(user__last_name__icontains=search_query)
+                   or students.filter(user__last_name__icontains=search_query)
 
     paginator = Paginator(students, 5)
     page_number = request.GET.get('page')
@@ -41,6 +42,7 @@ def get_all_students(request):
     }
 
     return render(request, 'principal_templates/students/students_template.html', context=context)
+
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required({
@@ -57,6 +59,6 @@ class DeleteStudent(views.DeleteView):
         return get_object_or_404(UserModel, pk=pk)
 
     def delete(self, request, *args, **kwargs):
-        teacher = self.get_object()
-        teacher.delete()
+        student = self.get_object()
+        student.delete()
         return self.success_url

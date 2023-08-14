@@ -1,6 +1,6 @@
 from django.contrib.auth import views as auth_views, get_user_model, authenticate
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views import generic as views
 from django.urls import reverse_lazy

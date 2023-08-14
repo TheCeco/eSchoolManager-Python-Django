@@ -10,6 +10,7 @@ from .models import TeacherProfile
 from ..accounts_app.forms import SchoolUserEditForm
 from ..classes_app.models import TeacherClass
 from ..common_app.models import SubjectsModel
+from ..mixins.user_details_mixins import UserProfileDetailsMixin
 from ..principal_app.models import TeacherSubjects
 from ..students_app.models import StudentProfile, AddGradeToStudentModel
 
@@ -21,23 +22,14 @@ UserModel = get_user_model()
     'teachers_app.view_teacherprofile',
     'accounts_app.view_schooluser'
 }, raise_exception=True), name='dispatch')
-class TeacherDetailsView(views.DetailView):
+class TeacherDetailsView(UserProfileDetailsMixin):
     template_name = 'teachers_templates/teacher_details.html'
-
-    def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')
-        try:
-            user_id = pk if pk == self.request.user.pk else self.request.user.pk
-            return get_object_or_404(TeacherProfile, user_id=user_id)
-        except:
-            return get_object_or_404(TeacherProfile, user_id=pk)
+    profile = TeacherProfile
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['teacher_subjects'] = TeacherSubjects.objects.filter(teacher=self.get_object())
         context['classes'] = self.get_class_unique()
-
-        print(context['classes'])
 
         return context
 
@@ -141,15 +133,19 @@ class TeacherGradesTables(views.DetailView):
 
         for subject in teacher.teachersubjects_set.all():
             for student in student_subjects:
+                # Take the student and check if his in the class
                 if student.subject.subject_name == subject.subject.subject_name and student.student in students:
                     if student.subject not in average_grades:
+                        # If his subject avr grade not in average_grades then add the subject name
                         average_grades[student.subject] = {}
 
+                    # If student not in subject then adds him with his grade's sum
                     if student.student not in average_grades[student.subject]:
                         average_grades[student.subject][student.student] = 0
                     average_grades[student.subject][
                         student.student] += student.grade.grade
 
+        # Calculating the sum of the grades to average grade per subject
         for subject, students in average_grades.items():
             for student, grade_sum in students.items():
                 grades = student_subjects.filter(student=student, subject=subject)
