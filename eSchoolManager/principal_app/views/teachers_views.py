@@ -81,8 +81,10 @@ def edit_subject(request, teacher_id, subject_id):
     form = EditTeacherSubject(request.POST or None, instance=teacher_subject)
 
     if form.is_valid():
-        teacher_subject.teacher = form.cleaned_data['teacher']
-        teacher_subject.subject = form.cleaned_data['subject']
+        new_subject = form.cleaned_data['subject']
+
+        update_teacherclass(teacher, new_subject)
+
         form.save()
         return redirect('teacher_details', pk=teacher.user_id)
 
@@ -95,13 +97,34 @@ def edit_subject(request, teacher_id, subject_id):
     return render(request, 'principal_templates/teachers/edit_teacher_subject.html', context=context)
 
 
+def update_teacherclass(teacher, new_subject):
+    """
+    Edit teacher's subject in every class he/she teach.
+    If already a teacher with the same subject the edited teacher has been removed.
+    """
+
+    teacher_classes = TeacherClass.objects.filter(teacher=teacher)
+
+    TeacherClass._meta.unique_together = ()
+    for clas in teacher_classes:
+        clas.subject = new_subject
+        already_teacher = TeacherClass.objects.filter(subject=new_subject, school_class=clas.school_class)
+        if already_teacher:
+            clas.delete()
+        else:
+            clas.save()
+
+    TeacherClass._meta.unique_together = (('teacher', 'school_class', 'subject'), ('school_class', 'subject'),)
+
+
 @login_required
 @permission_required('principal_app.delete_teachersubjects', raise_exception=True)
 def delete_teacher_subject(request, teacher_id, subject_id):
     teacher = get_object_or_404(TeacherProfile, pk=teacher_id)
     subject = get_object_or_404(TeacherSubjects, teacher=teacher, subject_id=subject_id)
-    teacher_classes = TeacherClass.objects.filter(teacher=teacher, subject_id=subject_id)
     subject.delete()
+
+    teacher_classes = TeacherClass.objects.filter(teacher=teacher, subject_id=subject_id)
     remove_teacher_from_classes(teacher_classes)
     return redirect('teacher_details', pk=teacher.user_id)
 
